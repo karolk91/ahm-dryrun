@@ -46,6 +46,7 @@ jobs:
           echo "PWD=$(pwd)"
           ls -la
           git status || echo "Not a git repo?"
+          apt-get update && apt-get install -y lz4
           just submodule-update
           just create-${{ inputs.network }}-pre-migration-snapshot
           
