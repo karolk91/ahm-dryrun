@@ -41,7 +41,7 @@ build-omni-node:
 
 # Initialize and update submodules to latest remote
 submodule-update:
-    git submodule update --init --recursive --remote
+    git submodule update --init --recursive
     @echo '\nYou probably want to now run `just build-<runtime>` for westend, kusama or polkadot'
 
 # Build the kusama runtimes and copy back
