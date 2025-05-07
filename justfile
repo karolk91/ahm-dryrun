@@ -2,8 +2,7 @@ mod coverage
 
 set dotenv-load
 
-# Getting root directory of this project even when in submodule context
-PROJECT_ROOT_PATH := `git -C "$(git rev-parse --show-superproject-working-tree || pwd)" rev-parse --show-toplevel`
+PROJECT_ROOT_PATH := `DIR="${JUSTFILE:-justfile}"; DIR="$(realpath "$DIR")"; echo "$(dirname "$DIR")"`
 
 # In CI some image doesn't have scp and we can fallback to cp
 cp_cmd := `which scp || which cp`
@@ -57,7 +56,6 @@ build-kusama:
 build-polkadot *EXTRA:
     cd ${RUNTIMES_PATH} && ${CARGO_CMD} build --release --features=metadata-hash {{EXTRA}} -p asset-hub-polkadot-runtime -p polkadot-runtime -p collectives-polkadot-runtime
     {{ cp_cmd }} ${RUNTIMES_BUILD_ARTIFACTS_PATH}/wbuild/**/**.compact.compressed.wasm ./runtime_wasm/
-
 
 clean-westend:
     # cleanup is required for proper porting, as the porting procedure is not idempotent
